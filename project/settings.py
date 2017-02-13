@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: settings.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-02-13T22:19:26+05:30
+# @Last modified time: 2017-02-14T02:24:58+05:30
 
 
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'elasticsearch',
     'core'
 ]
 
@@ -130,3 +131,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+from elasticsearch import Elasticsearch
+ES_CLIENT = Elasticsearch(
+['http://127.0.0.1:9200/'],
+)

@@ -3,12 +3,14 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: models.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-02-14T00:27:25+05:30
+# @Last modified time: 2017-02-14T02:51:31+05:30
 
 
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+import django.db.models.options as options
+options.DEFAULT_NAMES=options.DEFAULT_NAMES+('es_index_name','es_type_name','es_mapping')
 class University(models.Model):
         name = models.CharField(max_length=255, unique=True)
 class Course(models.Model):
@@ -37,3 +39,32 @@ class Student(models.Model):
     courses = models.ManyToManyField(Course, null=True, blank=True)
     def __unicode__(self):
         return self.first_name+" "+self.last_name
+    class Meta:
+        es_index_name='django'
+        es_type_name='student'
+        es_mapping={
+        'properties':{
+            'university':{
+                "type":'object',
+                "properties":{
+                    "name":{'type':'string','index':'not_analyzed'},
+                    }
+                },
+                'first_name':{'type':'string','index':'not_analyzed'},
+                'last_name':{'type':'string','index':'not_analyzed'},
+                'age':{'type':'short'},
+                'year_in_school':{'type':'string'},
+                'name_complete':{
+                "type":"completion",
+                "analyzer":"simple",
+                'payloads':True,
+                'preserve_separators':True,
+                'preserve_position_increments':True,
+                'max_input_length':50
+                },
+                "course_names":{
+                    "type":"string","store":"yes","index":"not_analyzed"
+                }
+
+            }
+        }
