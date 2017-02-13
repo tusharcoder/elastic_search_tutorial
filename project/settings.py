@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: settings.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-02-14T02:24:58+05:30
+# @Last modified time: 2017-02-14T03:08:01+05:30
 
 
 
@@ -132,7 +132,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, RequestsHttpConnection
 ES_CLIENT = Elasticsearch(
 ['http://127.0.0.1:9200/'],
+connection_class=RequestsHttpConnection
 )
